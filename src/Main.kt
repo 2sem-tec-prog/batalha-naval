@@ -7,7 +7,7 @@ fun criarTabuleiro(): Array<Array<Char>> {
     //Cria o array de 10 linhas por 10 colunas com todos os valora vazio ' '
     val tabuleiro = Array(tamanho) { Array(tamanho) { ' ' } }
     //cria uma lista de navio que depois serão inserido no array
-    val todosNavios = List(10) { 'P' } + List(1) {'C'} + List(2) { 'R' }
+    val todosNavios = List(80) { 'P' } + List(10) {'C'} + List(10) { 'R' }
 
     //para cada navio na lista ele vai pegar uma linha e coluna aleatórios para alterar
     for (navio in todosNavios) {
@@ -36,7 +36,7 @@ fun imprimirTabuleiro(tabuleiro: Array<Array<Char>>) {
 
     for (i in tabuleiro.indices) {//para cada linha no tabuleiro
 
-        repeat(tabuleiro[i].size) { //insere as linhas horizontais mas não terminei
+        repeat(tabuleiro[i].size) {
             print("--------")
         }
         println()
@@ -101,18 +101,18 @@ fun main() {
                 println("Você tem mais $tentativasSobrando tentativas")
 
                 print("X: ")
-                val coordenadaX = readln().toIntOrNull() //pega as coordenadas x
+                val coordenadaX = readln().toIntOrNull()?.minus(1) //pega as coordenadas x
                 historicoX[cont] = coordenadaX;
                 print("Y: ")
-                val coordenadaY = readln().toIntOrNull() //pega as coordenadas y
+                val coordenadaY = readln().toIntOrNull()?.minus(1) //pega as coordenadas y
                 historicoY[cont] = coordenadaY
                 cont++
 
-                if (coordenadaX == 0 && coordenadaY == 0) { //encerra o jogo
+                if (coordenadaX == -1 && coordenadaY == -1) { //encerra o jogo
                     println("Encerrando")
                     for (i in 0..cont - 1){
-                        if (historicoX[i] != 0 && historicoY[i] != 0){
-                            println("Jogada ${i+1}: X = ${historicoX[i]}, Y = ${historicoY[i]}")
+                        if (historicoX[i] != -1 && historicoY[i] != -1){
+                            println("Jogada ${i+1}: X = ${historicoX[i]?.plus(1)}, Y = ${historicoY[i]?.plus(1)}")
                         }
                     }
                     break
@@ -168,7 +168,7 @@ fun main() {
                 if (jogadas == tentativas-1) { //verifica se é a ultima jogada e mostra a pontuação
                     println("Pontuação total: $soma")
                     for (i in 0..cont - 1){
-                        println("Jogada ${i+1}: X = ${historicoX[i]}, Y = ${historicoY[i]}")
+                        println("Jogada ${i+1}: X = ${historicoX[i]?.plus(1)}, Y = ${historicoY[i]?.plus(1)}")
                     }
 
                 }
