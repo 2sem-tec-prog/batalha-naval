@@ -70,7 +70,7 @@ fun imprimirTabuleiro(tabuleiro: Array<Array<Char>>) {
                 else -> print("|       ")
             }
         }
-        println("|  $amarelo${i}$reset") //numero de colunas
+        println("|  $amarelo${i+1}$reset") //numero de colunas
     }
     repeat(tabuleiro[0].size) {
         print("--------")
@@ -79,7 +79,7 @@ fun imprimirTabuleiro(tabuleiro: Array<Array<Char>>) {
 
 
     for (i in tabuleiro[0].indices) { //mostra os numeros das colunas abaixo do tabuleiro
-        val num = (i).toString().padStart(2, ' ')
+        val num = (i+1).toString().padStart(2, ' ')
         print("   $amarelo$num$reset   ")
     }
     println()
@@ -90,7 +90,7 @@ fun imprimirTabuleiro(tabuleiro: Array<Array<Char>>) {
 
 fun main() {
     while (true) {
-        println("\nIniciar o jogo - 1 \nEncerrar - 0 \nDesistir da partida - X:-1 Y:-1")
+        println("\nIniciar o jogo - 1 \nEncerrar - 0 \nDesistir da partida - X:0 Y:0")
 
         println("\n||⛵ Batalha Naval ⛵||")
         print("     Escolha: ")
