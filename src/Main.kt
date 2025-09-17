@@ -55,7 +55,8 @@ fun imprimirTabuleiro(tabuleiro: Array<Array<Char>>) {
         }
         println("|  $amarelo${i + 1}$reset") //numero de colunas
     }
-    repeat(tabuleiro[0].size) {//isso era para colocar linhas horizontais mas não terminei
+    repeat(tabuleiro[0].size) {
+        print("--------")
     }
     println("")
 
@@ -79,7 +80,7 @@ fun main() {
 
         if (ativar == 1) { //se o jogador inserir 1 ele começa o jogo
             val tabuleiro = criarTabuleiro()
-            val tentativas = 15
+            val tentativas = 3
 
             println("")
             imprimirTabuleiro(tabuleiro) //puxa a função que imprime o tabuleiro na tela
@@ -109,8 +110,10 @@ fun main() {
 
                 if (coordenadaX == 0 && coordenadaY == 0) { //encerra o jogo
                     println("Encerrando")
-                    for (i in historicoY.indices){
-                        println("Jogada $i: X = ${historicoX[i]}, Y = ${historicoY[i]}")
+                    for (i in 0..cont - 1){
+                        if (historicoX[i] != 0 && historicoY[i] != 0){
+                            println("Jogada ${i+1}: X = ${historicoX[i]}, Y = ${historicoY[i]}")
+                        }
                     }
                     break
                 }
@@ -164,6 +167,9 @@ fun main() {
 
                 if (jogadas == tentativas-1) { //verifica se é a ultima jogada e mostra a pontuação
                     println("Pontuação total: $soma")
+                    for (i in 0..cont - 1){
+                        println("Jogada ${i+1}: X = ${historicoX[i]}, Y = ${historicoY[i]}")
+                    }
 
                 }
                 jogadas++
