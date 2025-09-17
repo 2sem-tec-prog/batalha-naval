@@ -66,7 +66,7 @@ fun imprimirTabuleiro(tabuleiro: Array<Array<Char>>) {
                 'p' -> print("|   ${vermelho}p${reset}   ")
                 'c' -> print("|   ${vermelho}c${reset}   ")
                 'r' -> print("|   ${vermelho}r${reset}   ")
-                '' -> print("|   ${azul}${reset}   ")
+                '~' -> print("|   ${azul}${reset}   ")
                 else -> print("|       ")
             }
         }
