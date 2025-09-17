@@ -2,16 +2,21 @@
 import kotlin.random.Random
 
 fun criarTabuleiro(): Array<Array<Char>> {
-    val tabuleiro = Array(10) { Array(10) { ' ' } }
-    val todosNavios = List(10) { 'P' } + List(1) { 'C' } + List(2) { 'R' }
+    println("Informe o tamanho do tabuleiro")
+    val tamanho = readln().toInt()
+    //Cria o array de 10 linhas por 10 colunas com todos os valora vazio ' '
+    val tabuleiro = Array(tamanho) { Array(tamanho) { ' ' } }
+    //cria uma lista de navio que depois serão inserido no array
+    val todosNavios = List(10) { 'P' } + List(1) {'C'} + List(2) { 'R' }
 
+    //para cada navio na lista ele vai pegar uma linha e coluna aleatórios para alterar
     for (navio in todosNavios) {
         var vago = false
         while (!vago) {
-            val lin = Random.nextInt(10)
+            val lin = Random.nextInt(10) //pega numeros aleatorios
             val col = Random.nextInt(10)
 
-            if (tabuleiro[lin][col] == ' ') {
+            if (tabuleiro[lin][col] == ' ') { //se a coluna do array estiver vazio é inserido o navio
                 tabuleiro[lin][col] = navio
                 vago = true
             }
@@ -20,41 +25,48 @@ fun criarTabuleiro(): Array<Array<Char>> {
     return tabuleiro
 }
 
+
 fun imprimirTabuleiro(tabuleiro: Array<Array<Char>>) {
+    //cores que serão usadas na estilização
     val reset = "\u001B[0m"
     val amarelo = "\u001B[33m"
     val vermelho = "\u001B[31m"
     val azul = "\u001B[34m"
 
-    for (i in tabuleiro.indices) {
-        repeat(tabuleiro[i].size) {
-        }
 
-        for (c in tabuleiro[i].indices) {
-            val celula = tabuleiro[i][c]
-            when (celula) {
+    for (i in tabuleiro.indices) {//para cada linha no tabuleiro
+
+        repeat(tabuleiro[i].size) { //insere as linhas horizontais mas não terminei
+            print("--------")
+        }
+        println()
+        for (c in tabuleiro[i].indices) { //para cada coluna dentro de uma linha
+            val celula = tabuleiro[i][c] //val auxiliar
+            when (celula) { //de acordo com o char do array, vai exibir a string na tela
                 'P' -> print("|   ${azul}P${reset}   ")
                 'C' -> print("|   ${azul}C${reset}   ")
                 'R' -> print("|   ${azul}R${reset}   ")
                 'p' -> print("|   ${vermelho}p${reset}   ")
                 'c' -> print("|   ${vermelho}c${reset}   ")
                 'r' -> print("|   ${vermelho}r${reset}   ")
-                '~' -> print("|   ${azul}~${reset}   ")
+                '~' -> print("|   ${azul}${reset}   ")
                 else -> print("|       ")
             }
         }
-        println("|  $amarelo${i + 1}$reset")
+        println("|  $amarelo${i + 1}$reset") //numero de colunas
     }
-    repeat(tabuleiro[0].size) {
+    repeat(tabuleiro[0].size) {//isso era para colocar linhas horizontais mas não terminei
     }
     println("")
 
-    for (i in tabuleiro[0].indices) {
+
+    for (i in tabuleiro[0].indices) { //mostra os numeros das colunas abaixo do tabuleiro
         val num = (i + 1).toString().padStart(2, ' ')
         print("   $amarelo$num$reset   ")
     }
     println()
 }
+
 
 
 fun main() {
@@ -65,50 +77,59 @@ fun main() {
         print("     Escolha: ")
         val ativar = readln().toIntOrNull()
 
-        if (ativar == 1) {
+        if (ativar == 1) { //se o jogador inserir 1 ele começa o jogo
             val tabuleiro = criarTabuleiro()
             val tentativas = 15
 
             println("")
-            imprimirTabuleiro(tabuleiro)
+            imprimirTabuleiro(tabuleiro) //puxa a função que imprime o tabuleiro na tela
 
             var jogadas = 0
             var acertos = 0
             var soma = 0
+            var cont = 0;
+
+            val historicoX = arrayOfNulls<Int>(15)
+            val historicoY = arrayOfNulls<Int>(15)
 
             while (jogadas < tentativas) {
                 println("\nInsira as coordenadas da bomba")
 
-                val tentativasSobrando = tentativas - jogadas
+
+                val tentativasSobrando = tentativas - jogadas //mostra quantas tentativas faltam
                 println("Você tem mais $tentativasSobrando tentativas")
 
                 print("X: ")
-                val coordenadaX = readln().toIntOrNull()?.minus(1)
-
+                val coordenadaX = readln().toIntOrNull() //pega as coordenadas x
+                historicoX[cont] = coordenadaX;
                 print("Y: ")
-                val coordenadaY = readln().toIntOrNull()?.minus(1)
+                val coordenadaY = readln().toIntOrNull() //pega as coordenadas y
+                historicoY[cont] = coordenadaY
+                cont++
 
-
-                if (coordenadaX == -1 && coordenadaY == -1) {
+                if (coordenadaX == 0 && coordenadaY == 0) { //encerra o jogo
                     println("Encerrando")
+                    for (i in historicoY.indices){
+                        println("Jogada $i: X = ${historicoX[i]}, Y = ${historicoY[i]}")
+                    }
                     break
                 }
-                if (coordenadaX == null || coordenadaX >= 10 || coordenadaX < 0) {
+                if (coordenadaX == null || coordenadaX >= 10 || coordenadaX < 0) { //coordenadas maiores que o tabuleiro
                     print("Coordenadas inválidas")
                     continue
                 }
-                if (coordenadaY == null || coordenadaY >= 10 || coordenadaY < 0) {
+                if (coordenadaY == null || coordenadaY >= 10 || coordenadaY < 0) { //coordenadas maiores que o tabuleiro
                     print("Coordenadas inválidas")
                     continue
                 }
 
-                val celulaUsada = setOf('p', 'r', 'c', '~', '1', '2', '3')
+                val celulaUsada = setOf('p','r','c','~','1','2','3') //confere se a bomba ja foi lançada nesse lugar
                 if (tabuleiro[coordenadaX][coordenadaY] in celulaUsada) {
                     println("Coordenadas já foram utilizadas.")
                     continue
                 }
 
-
+                //verificação de acertos e soma de pontuação
                 if (tabuleiro[coordenadaX][coordenadaY] == 'P') {
                     println("Alvo atingido! Porta-aviões abatido!")
                     acertos++
@@ -133,19 +154,21 @@ fun main() {
 
                 println("")
 
+                //após todas as verificações vai imprimir o tabuleiro atualizado
                 imprimirTabuleiro(tabuleiro)
 
-                if (acertos == 18) {
+                if (acertos == 13) { //verifica se o jogador acertou todos os navios
                     println("Parabéns você acertou todos os navios!!")
                     break
                 }
 
-                if (jogadas == tentativas - 1) {
+                if (jogadas == tentativas-1) { //verifica se é a ultima jogada e mostra a pontuação
                     println("Pontuação total: $soma")
+
                 }
                 jogadas++
             }
-        } else if (ativar == 0) {
+        } else if (ativar == 0) { //se o jogador inserir 0 no menu, fecha o jogo
             print("Encerrando")
             break
         } else {
