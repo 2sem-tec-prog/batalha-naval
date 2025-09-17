@@ -2,6 +2,7 @@
 //GIOVANE MELO
 //ESTEVÃO SANTOS
 //GUSTAVO GONSALVES
+import kotlin.math.roundToInt
 import kotlin.random.Random
 
 
@@ -23,7 +24,7 @@ fun criarTabuleiro(): Pair< Array<Array<Char>>, Int> {
     //Cria o array de 10 linhas por 10 colunas com todos os valora vazio ' '
     val tabuleiro = Array(tamanho) { Array(tamanho) { ' ' } }
     //cria uma lista de navio que depois serão inserido no array
-    val todosNavios = List(80) { 'P' } + List(10) {'C'} + List(10) { 'R' }
+    val todosNavios = List((tamanho * tamanho * 0.5).roundToInt() ) { 'P' } + List((tamanho * tamanho * 0.2).roundToInt()) {'C'} + List((tamanho * tamanho * 0.1).roundToInt()) { 'R' }
 
     //para cada navio na lista ele vai pegar uma linha e coluna aleatórios para alterar
     for (navio in todosNavios) {
