@@ -1,9 +1,25 @@
 //GUSTAVO DECKER COUTO
+//GIOVANE MELO
+//ESTEVÃO SANTOS
+//GUSTAVO GONSALVES
 import kotlin.random.Random
 
-fun criarTabuleiro(): Array<Array<Char>> {
-    println("Informe o tamanho do tabuleiro")
-    val tamanho = readln().toInt()
+
+fun criarTabuleiro(): Pair< Array<Array<Char>>, Int> {
+    var tamanho: Int
+
+    while(true) {
+        println("Informe o tamanho do tabuleiro")
+        tamanho = readln().toIntOrNull() ?: 0
+        if (tamanho < 5 || tamanho > 15) {
+            print("Valores inválidos.")
+            continue
+        }
+        break
+    }
+
+
+
     //Cria o array de 10 linhas por 10 colunas com todos os valora vazio ' '
     val tabuleiro = Array(tamanho) { Array(tamanho) { ' ' } }
     //cria uma lista de navio que depois serão inserido no array
@@ -22,8 +38,9 @@ fun criarTabuleiro(): Array<Array<Char>> {
             }
         }
     }
-    return tabuleiro
+    return Pair(tabuleiro, tamanho)
 }
+
 
 
 fun imprimirTabuleiro(tabuleiro: Array<Array<Char>>) {
@@ -49,11 +66,11 @@ fun imprimirTabuleiro(tabuleiro: Array<Array<Char>>) {
                 'p' -> print("|   ${vermelho}p${reset}   ")
                 'c' -> print("|   ${vermelho}c${reset}   ")
                 'r' -> print("|   ${vermelho}r${reset}   ")
-                '~' -> print("|   ${azul}${reset}   ")
+                '' -> print("|   ${azul}${reset}   ")
                 else -> print("|       ")
             }
         }
-        println("|  $amarelo${i + 1}$reset") //numero de colunas
+        println("|  $amarelo${i}$reset") //numero de colunas
     }
     repeat(tabuleiro[0].size) {
         print("--------")
@@ -62,7 +79,7 @@ fun imprimirTabuleiro(tabuleiro: Array<Array<Char>>) {
 
 
     for (i in tabuleiro[0].indices) { //mostra os numeros das colunas abaixo do tabuleiro
-        val num = (i + 1).toString().padStart(2, ' ')
+        val num = (i).toString().padStart(2, ' ')
         print("   $amarelo$num$reset   ")
     }
     println()
@@ -70,16 +87,17 @@ fun imprimirTabuleiro(tabuleiro: Array<Array<Char>>) {
 
 
 
+
 fun main() {
     while (true) {
-        println("\nIniciar o jogo - 1 \nEncerrar - 0 \nDesistir da partida - X:0 Y:0")
+        println("\nIniciar o jogo - 1 \nEncerrar - 0 \nDesistir da partida - X:-1 Y:-1")
 
         println("\n||⛵ Batalha Naval ⛵||")
         print("     Escolha: ")
         val ativar = readln().toIntOrNull()
 
         if (ativar == 1) { //se o jogador inserir 1 ele começa o jogo
-            val tabuleiro = criarTabuleiro()
+            val (tabuleiro, tamanho) = criarTabuleiro()
             val tentativas = 3
 
             println("")
@@ -108,20 +126,20 @@ fun main() {
                 historicoY[cont] = coordenadaY
                 cont++
 
-                if (coordenadaX == 0 && coordenadaY == 0) { //encerra o jogo
+                if (coordenadaX == -1 && coordenadaY == -1) { //encerra o jogo
                     println("Encerrando")
                     for (i in 0..cont - 1){
-                        if (historicoX[i] != 0 && historicoY[i] != 0){
+                        if (historicoX[i] != -1 && historicoY[i] != -1){
                             println("Jogada ${i+1}: X = ${historicoX[i]}, Y = ${historicoY[i]}")
                         }
                     }
                     break
                 }
-                if (coordenadaX == null || coordenadaX >= 10 || coordenadaX < 0) { //coordenadas maiores que o tabuleiro
+                if (coordenadaX == null || coordenadaX >= tamanho || coordenadaX < 0) { //coordenadas maiores que o tabuleiro
                     print("Coordenadas inválidas")
                     continue
                 }
-                if (coordenadaY == null || coordenadaY >= 10 || coordenadaY < 0) { //coordenadas maiores que o tabuleiro
+                if (coordenadaY == null || coordenadaY >= tamanho || coordenadaY < 0) { //coordenadas maiores que o tabuleiro
                     print("Coordenadas inválidas")
                     continue
                 }
@@ -164,15 +182,14 @@ fun main() {
                     println("Parabéns você acertou todos os navios!!")
                     break
                 }
-
-                if (jogadas == tentativas-1) { //verifica se é a ultima jogada e mostra a pontuação
+                jogadas++
+                if (jogadas == tentativas) { //verifica se é a ultima jogada e mostra a pontuação
                     println("Pontuação total: $soma")
-                    for (i in 0..cont - 1){
+                    for (i in 0..cont -1 ){
                         println("Jogada ${i+1}: X = ${historicoX[i]}, Y = ${historicoY[i]}")
                     }
 
                 }
-                jogadas++
             }
         } else if (ativar == 0) { //se o jogador inserir 0 no menu, fecha o jogo
             print("Encerrando")
