@@ -160,7 +160,7 @@ fun main() {
 
         if (ativar == 1) { //se o jogador inserir 1 ele começa o jogo
             val (tabuleiro, tamanho) = criarTabuleiro()
-            val tentativas = 15
+            val tentativas = (tamanho * 1.5).roundToInt()
 
             println("")
             imprimirTabuleiro(tabuleiro) //puxa a função que imprime o tabuleiro na tela
@@ -238,11 +238,19 @@ fun main() {
                     val distancia = distanciaMaisProxima(tabuleiro, coordenadaX, coordenadaY)
 
                     if (distancia != null) {
-                        println("Errou, mas está a $distancia casa(s) de distância.")
                         when (distancia) {
-                            1 -> tabuleiro[coordenadaX][coordenadaY] = '1'
-                            2 -> tabuleiro[coordenadaX][coordenadaY] = '2'
-                            3 -> tabuleiro[coordenadaX][coordenadaY] = 'M'
+                            1 -> {
+                                tabuleiro[coordenadaX][coordenadaY] = '1'
+                                println("Errou, mas está a $distancia casa de distância.")
+                            }
+                            2 -> {
+                                tabuleiro[coordenadaX][coordenadaY] = '2'
+                                println("Errou, mas está a $distancia casa(s) de distância.")
+                            }
+                            3 -> {
+                                tabuleiro[coordenadaX][coordenadaY] = 'M'
+                                println("Errou, está a $distancia ou mais casa(s) de distância.")
+                            }
                         }
                     }
                 }
