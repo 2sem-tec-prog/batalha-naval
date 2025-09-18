@@ -170,8 +170,8 @@ fun main() {
             var soma = 0
             var cont = 0
 
-            val historicoX = arrayOfNulls<Int>(15)
-            val historicoY = arrayOfNulls<Int>(15)
+            val historicoX = arrayOfNulls<Int>(tentativas)
+            val historicoY = arrayOfNulls<Int>(tentativas)
 
             while (jogadas < tentativas) {
                 println("\nInsira as coordenadas da bomba")
@@ -189,7 +189,11 @@ fun main() {
                 cont++
 
                 if (coordenadaX == -1 && coordenadaY == -1) { //encerra o jogo
-                    println("Encerrando")
+                    println("Encerrando...")
+                    println("O total de acertos foi: $acertos")
+                    println("O total de pontos foi: $soma")
+                    println("------------------------------------------")
+                    println("--------------- Historico ----------------")
                     for (i in 0..cont - 1){
                         if (historicoX[i] != -1 && historicoY[i] != -1){
 
