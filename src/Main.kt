@@ -35,26 +35,26 @@ fun criarTabuleiro(): Pair< Array<Array<Char>>, Int> {
                 todosNavios =
                     List((tamanho * tamanho * 0.2).roundToInt()) { 'P' } + List((tamanho * tamanho * 0.15).roundToInt()) { 'C' } + List(
                         (tamanho * tamanho * 0.07).roundToInt()
-                    ) { 'R' };
+                    ) { 'R' }
                 break
             }
             2 -> {
                 todosNavios =
                     List((tamanho * tamanho * 0.1).roundToInt()) { 'P' } + List((tamanho * tamanho * 0.01).roundToInt()) { 'C' } + List(
                         (tamanho * tamanho * 0.02).roundToInt()
-                    ) { 'R' };
+                    ) { 'R' }
                 break
             }
             3 -> {
                 todosNavios =
                     List((tamanho * tamanho * 0.07).roundToInt()) { 'P' } + List((tamanho * tamanho * 0.01).roundToInt()) { 'C' } + List(
                         (tamanho * tamanho * 0.01).roundToInt()
-                    ) { 'R' };
+                    ) { 'R' }
                 break
             }
 
             else -> {
-                println("Entrada Invalida");
+                println("Entrada Invalida")
                 continue
             }
         }
@@ -168,7 +168,7 @@ fun main() {
             var jogadas = 0
             var acertos = 0
             var soma = 0
-            var cont = 0;
+            var cont = 0
 
             val historicoX = arrayOfNulls<Int>(15)
             val historicoY = arrayOfNulls<Int>(15)
@@ -182,7 +182,7 @@ fun main() {
 
                 print("Y: ")
                 val coordenadaX = readln().toIntOrNull()?.minus(1) //pega as coordenadas x
-                historicoX[cont] = coordenadaX;
+                historicoX[cont] = coordenadaX
                 print("X: ")
                 val coordenadaY = readln().toIntOrNull()?.minus(1) //pega as coordenadas y
                 historicoY[cont] = coordenadaY
