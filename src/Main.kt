@@ -24,7 +24,44 @@ fun criarTabuleiro(): Pair< Array<Array<Char>>, Int> {
     //Cria o array de 10 linhas por 10 colunas com todos os valora vazio ' '
     val tabuleiro = Array(tamanho) { Array(tamanho) { ' ' } }
     //cria uma lista de navio que depois serão inserido no array
-    val todosNavios = List((tamanho * tamanho * 0.5).roundToInt() ) { 'P' } + List((tamanho * tamanho * 0.2).roundToInt()) {'C'} + List((tamanho * tamanho * 0.1).roundToInt()) { 'R' }
+    var todosNavios:List<Char>
+    while (true){
+        println("Escolha:\n1 - Fácil\n2 - Intermediario\n3 - Difícil")
+
+        val dificuldade = readln().toInt()
+
+
+        when(dificuldade){
+            1 -> {
+                todosNavios =
+                    List((tamanho * tamanho * 0.5).roundToInt()) { 'P' } + List((tamanho * tamanho * 0.2).roundToInt()) { 'C' } + List(
+                        (tamanho * tamanho * 0.1).roundToInt()
+                    ) { 'R' };
+                break
+            }
+            2 -> {
+                todosNavios =
+                    List((tamanho * tamanho * 0.2).roundToInt()) { 'P' } + List((tamanho * tamanho * 0.1).roundToInt()) { 'C' } + List(
+                        (tamanho * tamanho * 0.1).roundToInt()
+                    ) { 'R' };
+                break
+            }
+            3 -> {
+                todosNavios =
+                    List((tamanho * tamanho * 0.1).roundToInt()) { 'P' } + List((tamanho * tamanho * 0.05).roundToInt()) { 'C' } + List(
+                        (tamanho * tamanho * 0.03).roundToInt()
+                    ) { 'R' };
+                break
+            }
+
+            else -> {
+                println("Entrada Invalida");
+                continue
+            }
+        }
+    }
+
+
 
     //para cada navio na lista ele vai pegar uma linha e coluna aleatórios para alterar
     for (navio in todosNavios) {
