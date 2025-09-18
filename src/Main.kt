@@ -129,6 +129,8 @@ fun imprimirTabuleiro(tabuleiro: Array<Array<Char>>) {
 
 
 fun distanciaMaisProxima(tabuleiro: Array<Array<Char>>, x: Int, y: Int): Int? {
+    val opcoes = charArrayOf('P','p','C','c','R', 'r')
+
     for (dist in 1..3) {
         for (dx in -dist..dist) {
             for (dy in -dist..dist) {
@@ -140,7 +142,7 @@ fun distanciaMaisProxima(tabuleiro: Array<Array<Char>>, x: Int, y: Int): Int? {
 
                 if (novoX in tabuleiro.indices && novoY in tabuleiro[novoX].indices) {
                     val celula = tabuleiro[novoX][novoY]
-                    if (celula != ' ' && celula != '~') {
+                    if (celula in opcoes) {
                         return dist
                     }
                 }
