@@ -30,26 +30,25 @@ fun criarTabuleiro(): Pair< Array<Array<Char>>, Int> {
 
         val dificuldade = readln().toInt()
 
-
         when(dificuldade){
             1 -> {
                 todosNavios =
-                    List((tamanho * tamanho * 0.5).roundToInt()) { 'P' } + List((tamanho * tamanho * 0.2).roundToInt()) { 'C' } + List(
-                        (tamanho * tamanho * 0.1).roundToInt()
+                    List((tamanho * tamanho * 0.2).roundToInt()) { 'P' } + List((tamanho * tamanho * 0.15).roundToInt()) { 'C' } + List(
+                        (tamanho * tamanho * 0.07).roundToInt()
                     ) { 'R' };
                 break
             }
             2 -> {
                 todosNavios =
-                    List((tamanho * tamanho * 0.2).roundToInt()) { 'P' } + List((tamanho * tamanho * 0.1).roundToInt()) { 'C' } + List(
-                        (tamanho * tamanho * 0.1).roundToInt()
+                    List((tamanho * tamanho * 0.1).roundToInt()) { 'P' } + List((tamanho * tamanho * 0.01).roundToInt()) { 'C' } + List(
+                        (tamanho * tamanho * 0.02).roundToInt()
                     ) { 'R' };
                 break
             }
             3 -> {
                 todosNavios =
-                    List((tamanho * tamanho * 0.1).roundToInt()) { 'P' } + List((tamanho * tamanho * 0.05).roundToInt()) { 'C' } + List(
-                        (tamanho * tamanho * 0.03).roundToInt()
+                    List((tamanho * tamanho * 0.07).roundToInt()) { 'P' } + List((tamanho * tamanho * 0.01).roundToInt()) { 'C' } + List(
+                        (tamanho * tamanho * 0.01).roundToInt()
                     ) { 'R' };
                 break
             }
@@ -67,8 +66,8 @@ fun criarTabuleiro(): Pair< Array<Array<Char>>, Int> {
     for (navio in todosNavios) {
         var vago = false
         while (!vago) {
-            val lin = Random.nextInt(10) //pega numeros aleatorios
-            val col = Random.nextInt(10)
+            val lin = Random.nextInt(tamanho) //pega numeros aleatorios
+            val col = Random.nextInt(tamanho)
 
             if (tabuleiro[lin][col] == ' ') { //se a coluna do array estiver vazio é inserido o navio
                 tabuleiro[lin][col] = navio
@@ -87,6 +86,7 @@ fun imprimirTabuleiro(tabuleiro: Array<Array<Char>>) {
     val amarelo = "\u001B[33m"
     val vermelho = "\u001B[31m"
     val azul = "\u001B[34m"
+    val verde = "\u001B[32m"
 
 
     for (i in tabuleiro.indices) {//para cada linha no tabuleiro
@@ -105,6 +105,10 @@ fun imprimirTabuleiro(tabuleiro: Array<Array<Char>>) {
                 'c' -> print("|   ${vermelho}c${reset}   ")
                 'r' -> print("|   ${vermelho}r${reset}   ")
                 '~' -> print("|   ${azul}${reset}   ")
+                '1' -> print("|   ${verde}1${reset}   ")
+                '2' -> print("|   ${verde}2${reset}   ")
+                'M' -> print("|   ${verde}M${reset}   ")
+
                 else -> print("|       ")
             }
         }
@@ -124,7 +128,27 @@ fun imprimirTabuleiro(tabuleiro: Array<Array<Char>>) {
 }
 
 
+fun distanciaMaisProxima(tabuleiro: Array<Array<Char>>, x: Int, y: Int): Int? {
+    for (dist in 1..3) {
+        for (dx in -dist..dist) {
+            for (dy in -dist..dist) {
+                if (dx == 0 && dy == 0) continue
 
+                val novoX = x + dx
+                val novoY = y + dy
+
+
+                if (novoX in tabuleiro.indices && novoY in tabuleiro[novoX].indices) {
+                    val celula = tabuleiro[novoX][novoY]
+                    if (celula != ' ' && celula != '~') {
+                        return dist
+                    }
+                }
+            }
+        }
+    }
+    return null
+}
 
 fun main() {
     while (true) {
@@ -136,7 +160,7 @@ fun main() {
 
         if (ativar == 1) { //se o jogador inserir 1 ele começa o jogo
             val (tabuleiro, tamanho) = criarTabuleiro()
-            val tentativas = 3
+            val tentativas = 15
 
             println("")
             imprimirTabuleiro(tabuleiro) //puxa a função que imprime o tabuleiro na tela
@@ -156,10 +180,10 @@ fun main() {
                 val tentativasSobrando = tentativas - jogadas //mostra quantas tentativas faltam
                 println("Você tem mais $tentativasSobrando tentativas")
 
-                print("X: ")
+                print("Y: ")
                 val coordenadaX = readln().toIntOrNull()?.minus(1) //pega as coordenadas x
                 historicoX[cont] = coordenadaX;
-                print("Y: ")
+                print("X: ")
                 val coordenadaY = readln().toIntOrNull()?.minus(1) //pega as coordenadas y
                 historicoY[cont] = coordenadaY
                 cont++
@@ -206,11 +230,21 @@ fun main() {
                 } else if (tabuleiro[coordenadaX][coordenadaY] == 'R') {
                     println("Alvo atingido! Rebocador abatido!")
                     acertos++
-                    soma += 15
+                    soma += 10
                     tabuleiro[coordenadaX][coordenadaY] = 'r'
 
                 } else {
                     tabuleiro[coordenadaX][coordenadaY] = '~'
+                    val distancia = distanciaMaisProxima(tabuleiro, coordenadaX, coordenadaY)
+
+                    if (distancia != null) {
+                        println("Errou, mas está a $distancia casa(s) de distância.")
+                        when (distancia) {
+                            1 -> tabuleiro[coordenadaX][coordenadaY] = '1'
+                            2 -> tabuleiro[coordenadaX][coordenadaY] = '2'
+                            3 -> tabuleiro[coordenadaX][coordenadaY] = 'M'
+                        }
+                    }
                 }
 
                 println("")
