@@ -98,6 +98,53 @@ fun imprimirTabuleiro(tabuleiro: Array<Array<Char>>) {
         for (c in tabuleiro[i].indices) { //para cada coluna dentro de uma linha
             val celula = tabuleiro[i][c] //val auxiliar
             when (celula) { //de acordo com o char do array, vai exibir a string na tela
+                'P' -> print("|   ${azul}${reset}    ")
+                'C' -> print("|   ${azul}${reset}    ")
+                'R' -> print("|   ${azul}${reset}    ")
+                'p' -> print("|   ${vermelho}p${reset}   ")
+                'c' -> print("|   ${vermelho}c${reset}   ")
+                'r' -> print("|   ${vermelho}r${reset}   ")
+                '~' -> print("|   ${azul}${reset}   ")
+                '1' -> print("|   ${verde}1${reset}   ")
+                '2' -> print("|   ${verde}2${reset}   ")
+                'M' -> print("|   ${verde}M${reset}   ")
+
+                else -> print("|       ")
+            }
+        }
+        println("|  $amarelo${i+1}$reset") //numero de colunas
+    }
+    repeat(tabuleiro[0].size) {
+        print("--------")
+    }
+    println("")
+
+
+    for (i in tabuleiro[0].indices) { //mostra os numeros das colunas abaixo do tabuleiro
+        val num = (i+1).toString().padStart(2, ' ')
+        print("   $amarelo$num$reset   ")
+    }
+    println()
+}
+
+fun revelarTabuleiro(tabuleiro: Array<Array<Char>>) {
+    //cores que serão usadas na estilização
+    val reset = "\u001B[0m"
+    val amarelo = "\u001B[33m"
+    val vermelho = "\u001B[31m"
+    val azul = "\u001B[34m"
+    val verde = "\u001B[32m"
+
+
+    for (i in tabuleiro.indices) {//para cada linha no tabuleiro
+
+        repeat(tabuleiro[i].size) {
+            print("--------")
+        }
+        println()
+        for (c in tabuleiro[i].indices) { //para cada coluna dentro de uma linha
+            val celula = tabuleiro[i][c] //val auxiliar
+            when (celula) { //de acordo com o char do array, vai exibir a string na tela
                 'P' -> print("|   ${azul}P${reset}   ")
                 'C' -> print("|   ${azul}C${reset}   ")
                 'R' -> print("|   ${azul}R${reset}   ")
@@ -128,7 +175,10 @@ fun imprimirTabuleiro(tabuleiro: Array<Array<Char>>) {
 }
 
 
+
 fun distanciaMaisProxima(tabuleiro: Array<Array<Char>>, x: Int, y: Int): Int? {
+    val opcoes = charArrayOf('P','p','C','c','R', 'r')
+
     for (dist in 1..3) {
         for (dx in -dist..dist) {
             for (dy in -dist..dist) {
@@ -140,7 +190,7 @@ fun distanciaMaisProxima(tabuleiro: Array<Array<Char>>, x: Int, y: Int): Int? {
 
                 if (novoX in tabuleiro.indices && novoY in tabuleiro[novoX].indices) {
                     val celula = tabuleiro[novoX][novoY]
-                    if (celula != ' ' && celula != '~') {
+                    if (celula in opcoes) {
                         return dist
                     }
                 }
@@ -189,6 +239,9 @@ fun main() {
                 cont++
 
                 if (coordenadaX == -1 && coordenadaY == -1) { //encerra o jogo
+                    println("")
+                    println("Mapa Revelado:")
+                    revelarTabuleiro(tabuleiro) //puxa a função que imprime o tabuleiro na tela
                     println("Encerrando...")
                     println("O total de acertos foi: $acertos")
                     println("O total de pontos foi: $soma")
@@ -270,11 +323,20 @@ fun main() {
                 }
                 jogadas++
                 if (jogadas == tentativas) { //verifica se é a ultima jogada e mostra a pontuação
-                    println("Pontuação total: $soma")
-
+                    println("")
+                    println("Mapa Revelado:")
+                    revelarTabuleiro(tabuleiro) //puxa a função que imprime o tabuleiro na tela
+                    println("Encerrando...")
+                    println("O total de acertos foi: $acertos")
+                    println("O total de pontos foi: $soma")
+                    println("------------------------------------------")
+                    println("--------------- Historico ----------------")
                     for (i in 0..cont - 1){
-                        println("Jogada ${i+1}: X = ${historicoX[i]?.plus(1)}, Y = ${historicoY[i]?.plus(1)}")
+                        if (historicoX[i] != -1 && historicoY[i] != -1){
 
+                            println("Jogada ${i+1}: X = ${historicoX[i]?.plus(1)}, Y = ${historicoY[i]?.plus(1)}")
+
+                        }
                     }
 
                 }
