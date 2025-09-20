@@ -2,6 +2,7 @@
 //GIOVANE MELO
 //ESTEVÃO SANTOS
 //GUSTAVO GONSALVES
+import kotlin.math.max
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
@@ -29,31 +30,30 @@ fun criarTabuleiro(): Pair< Array<Array<Char>>, Int> {
 
         val dificuldade = readln().toInt()
 
-        when(dificuldade){
+        when (dificuldade) {
             1 -> {
                 todosNavios =
-                    List((tamanho * tamanho * 0.2).roundToInt()) { 'P' } + List((tamanho * tamanho * 0.15).roundToInt()) { 'C' } + List(
-                        (tamanho * tamanho * 0.07).roundToInt()
-                    ) { 'R' }
+                    List(max(1, (tamanho * tamanho * 0.2).roundToInt())) { 'P' } +
+                            List(max(1, (tamanho * tamanho * 0.15).roundToInt())) { 'C' } +
+                            List(max(1, (tamanho * tamanho * 0.07).roundToInt())) { 'R' }
                 break
             }
             2 -> {
                 todosNavios =
-                    List((tamanho * tamanho * 0.1).roundToInt()) { 'P' } + List((tamanho * tamanho * 0.01).roundToInt()) { 'C' } + List(
-                        (tamanho * tamanho * 0.02).roundToInt()
-                    ) { 'R' }
+                    List(max(1, (tamanho * tamanho * 0.1).roundToInt())) { 'P' } +
+                            List(max(1, (tamanho * tamanho * 0.01).roundToInt())) { 'C' } +
+                            List(max(1, (tamanho * tamanho * 0.02).roundToInt())) { 'R' }
                 break
             }
             3 -> {
                 todosNavios =
-                    List((tamanho * tamanho * 0.07).roundToInt()) { 'P' } + List((tamanho * tamanho * 0.01).roundToInt()) { 'C' } + List(
-                        (tamanho * tamanho * 0.01).roundToInt()
-                    ) { 'R' }
+                    List(max(1, (tamanho * tamanho * 0.07).roundToInt())) { 'P' } +
+                            List(max(1, (tamanho * tamanho * 0.01).roundToInt())) { 'C' } +
+                            List(max(1, (tamanho * tamanho * 0.01).roundToInt())) { 'R' }
                 break
             }
-
             else -> {
-                println("Entrada Invalida")
+                println("Entrada inválida")
                 continue
             }
         }
