@@ -215,8 +215,9 @@ fun main() {
             var soma = 0
             var cont = 0
 
-            val historicoX = arrayOfNulls<Int>(tentativas)
-            val historicoY = arrayOfNulls<Int>(tentativas)
+            val historicoX = arrayOfNulls<Int>(tentativas+2)
+            val historicoY = arrayOfNulls<Int>(tentativas+2)
+            val historicoJogadas = arrayOfNulls<String>(tentativas+2)
 
             while (jogadas < tentativas) {
                 println("\nInsira as coordenadas da bomba")
@@ -245,7 +246,7 @@ fun main() {
                     for (i in 0..cont - 1){
                         if (historicoX[i] != -1 && historicoY[i] != -1){
 
-                            println("Jogada ${i+1}: X = ${historicoX[i]?.plus(1)}, Y = ${historicoY[i]?.plus(1)}")
+                            println("Jogada ${i+1}: X = ${historicoX[i]?.plus(1)}, Y = ${historicoY[i]?.plus(1)} => ${historicoJogadas[i]}")
 
                         }
                     }
@@ -273,37 +274,44 @@ fun main() {
                     println("Alvo atingido! Porta-aviões abatido!")
                     acertos++
                     soma += 5
+                    historicoJogadas[cont] = "Porta-aviões, 5 pontos"
                     tabuleiro[coordenadaX][coordenadaY] = 'p'
 
                 } else if (tabuleiro[coordenadaX][coordenadaY] == 'C') {
                     println("Alvo atingido! Cruzador abatido!")
                     acertos++
                     soma += 15
+                    historicoJogadas[cont] = "Cruzador, 15 pontos"
                     tabuleiro[coordenadaX][coordenadaY] = 'c'
 
                 } else if (tabuleiro[coordenadaX][coordenadaY] == 'R') {
                     println("Alvo atingido! Rebocador abatido!")
                     acertos++
                     soma += 10
+                    historicoJogadas[cont] = "Rebocador, 10 pontos"
                     tabuleiro[coordenadaX][coordenadaY] = 'r'
 
                 } else {
                     tabuleiro[coordenadaX][coordenadaY] = '~'
                     val distancia = distanciaMaisProxima(tabuleiro, coordenadaX, coordenadaY)
 
+
                     if (distancia != null) {
                         when (distancia) {
                             1 -> {
                                 tabuleiro[coordenadaX][coordenadaY] = '1'
                                 println("Errou, mas está a $distancia casa de distância.")
+                                historicoJogadas[cont] = "Água, 1 casa de distancia de um navio"
                             }
                             2 -> {
                                 tabuleiro[coordenadaX][coordenadaY] = '2'
                                 println("Errou, mas está a $distancia casa(s) de distância.")
+                                historicoJogadas[cont] = "Água, 2 casas de distancia de um navio"
                             }
                             3 -> {
                                 tabuleiro[coordenadaX][coordenadaY] = 'M'
-                                println("Errou, está a $distancia ou mais casa(s) de distância.")
+                                println("Errou, está a $distancia ou mais casas de distância.")
+                                historicoJogadas[cont] = "Água, 3 ou mais casas de distancia de um navio"
                             }
                         }
                     }
@@ -331,7 +339,7 @@ fun main() {
                     for (i in 0..cont - 1){
                         if (historicoX[i] != -1 && historicoY[i] != -1){
 
-                            println("Jogada ${i+1}: X = ${historicoX[i]?.plus(1)}, Y = ${historicoY[i]?.plus(1)}")
+                            println("Jogada ${i+1}: X = ${historicoX[i]?.plus(1)}, Y = ${historicoY[i]?.plus(1)} => ${historicoJogadas[i]}")
 
                         }
                     }
