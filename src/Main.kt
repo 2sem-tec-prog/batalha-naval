@@ -5,7 +5,6 @@
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
-
 fun criarTabuleiro(): Pair< Array<Array<Char>>, Int> {
     var tamanho: Int
 
@@ -21,7 +20,7 @@ fun criarTabuleiro(): Pair< Array<Array<Char>>, Int> {
 
 
 
-    //Cria o array de 10 linhas por 10 colunas com todos os valora vazio ' '
+    //Cria o array de 10 linhas por 10 colunas com todos os valora vazio' '
     val tabuleiro = Array(tamanho) { Array(tamanho) { ' ' } }
     //cria uma lista de navio que depois serão inserido no array
     var todosNavios:List<Char>
@@ -77,8 +76,6 @@ fun criarTabuleiro(): Pair< Array<Array<Char>>, Int> {
     }
     return Pair(tabuleiro, tamanho)
 }
-
-
 
 fun imprimirTabuleiro(tabuleiro: Array<Array<Char>>) {
     //cores que serão usadas na estilização
@@ -174,8 +171,6 @@ fun revelarTabuleiro(tabuleiro: Array<Array<Char>>) {
     println()
 }
 
-
-
 fun distanciaMaisProxima(tabuleiro: Array<Array<Char>>, x: Int, y: Int): Int? {
     val opcoes = charArrayOf('P','p','C','c','R', 'r')
 
@@ -258,10 +253,12 @@ fun main() {
                 }
                 if (coordenadaX == null || coordenadaX >= tamanho || coordenadaX < 0) { //coordenadas maiores que o tabuleiro
                     print("Coordenadas inválidas")
+                    cont--
                     continue
                 }
                 if (coordenadaY == null || coordenadaY >= tamanho || coordenadaY < 0) { //coordenadas maiores que o tabuleiro
                     print("Coordenadas inválidas")
+                    cont--
                     continue
                 }
 
